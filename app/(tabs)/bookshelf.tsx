@@ -1,9 +1,9 @@
+import { Image } from "expo-image";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import BookCover from "@/components/novel/BookCover";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
@@ -21,12 +21,12 @@ export default function BookshelfScreen() {
 
   // 模擬用戶書架數據
   const bookshelfData = [
-    { id: 1, title: "無盡的旅程", author: "林雨晴", colorScheme: "blue", progress: 0.75, lastRead: "昨天" },
-    { id: 2, title: "星海傳說", author: "陳冠宇", colorScheme: "purple", progress: 0.3, lastRead: "3天前" },
-    { id: 3, title: "山中奇遇", author: "李明哲", colorScheme: "green", progress: 0.9, lastRead: "1小時前" },
-    { id: 4, title: "城市迷霧", author: "張靜怡", colorScheme: "red", progress: 0.5, lastRead: "上週" },
-    { id: 5, title: "鏡像世界", author: "王大明", colorScheme: "orange", progress: 0.1, lastRead: "剛剛" },
-    { id: 6, title: "時間的禮物", author: "周芷若", colorScheme: "blue", progress: 0, lastRead: "未閱讀" },
+    { id: 1, title: "無盡的旅程", author: "林雨晴", cover: require("@/assets/images/partial-react-logo.png"), progress: 0.75, lastRead: "昨天" },
+    { id: 2, title: "星海傳說", author: "陳冠宇", cover: require("@/assets/images/partial-react-logo.png"), progress: 0.3, lastRead: "3天前" },
+    { id: 3, title: "山中奇遇", author: "李明哲", cover: require("@/assets/images/partial-react-logo.png"), progress: 0.9, lastRead: "1小時前" },
+    { id: 4, title: "城市迷霧", author: "張靜怡", cover: require("@/assets/images/partial-react-logo.png"), progress: 0.5, lastRead: "上週" },
+    { id: 5, title: "鏡像世界", author: "王大明", cover: require("@/assets/images/partial-react-logo.png"), progress: 0.1, lastRead: "剛剛" },
+    { id: 6, title: "時間的禮物", author: "周芷若", cover: require("@/assets/images/partial-react-logo.png"), progress: 0, lastRead: "未閱讀" },
   ];
 
   // 書架分類標籤
@@ -40,7 +40,7 @@ export default function BookshelfScreen() {
       <View style={styles.header}>
         <ThemedText type="title">我的書架</ThemedText>
         <TouchableOpacity style={styles.editButton}>
-          <IconSymbol size={24} name={"square.and.pencil" as const} color={themeColor.text} />
+          <IconSymbol size={24} name="square.and.pencil" color={themeColor.text} />
         </TouchableOpacity>
       </View>
 
@@ -60,7 +60,7 @@ export default function BookshelfScreen() {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.booksContainer}>
         {bookshelfData.map(book => (
           <TouchableOpacity key={book.id} style={styles.bookCard}>
-            <BookCover width={80} height={120} colorScheme={book.colorScheme as "blue" | "purple" | "green" | "orange" | "red"} style={styles.bookCover} />
+            <Image source={book.cover} style={styles.bookCover} contentFit="cover" />
             <View style={styles.bookInfo}>
               <ThemedText type="defaultSemiBold" numberOfLines={1}>
                 {book.title}
@@ -76,7 +76,7 @@ export default function BookshelfScreen() {
               </View>
 
               <View style={styles.lastReadContainer}>
-                <IconSymbol size={14} name={"clock.fill" as const} color={themeColor.tabIconDefault} />
+                <IconSymbol size={14} name="clock.fill" color={themeColor.tabIconDefault} />
                 <ThemedText style={styles.lastReadText}>{book.lastRead}</ThemedText>
               </View>
             </View>

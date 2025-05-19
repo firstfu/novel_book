@@ -28,11 +28,11 @@ export default function ProfileScreen() {
 
   // 設置項目
   const settingsItems = [
-    { id: "theme", title: "外觀設定", icon: "paintpalette.fill" as const, color: "#9B59B6" },
-    { id: "notifications", title: "通知設定", icon: "bell.fill" as const, color: "#3498DB" },
-    { id: "privacy", title: "隱私設定", icon: "lock.fill" as const, color: "#2ECC71" },
-    { id: "about", title: "關於應用", icon: "info.circle.fill" as const, color: "#E67E22" },
-    { id: "help", title: "幫助和支援", icon: "questionmark.circle.fill" as const, color: "#E74C3C" },
+    { id: "theme", title: "外觀設定", icon: "paintpalette.fill", color: "#9B59B6" },
+    { id: "notifications", title: "通知設定", icon: "bell.fill", color: "#3498DB" },
+    { id: "privacy", title: "隱私設定", icon: "lock.fill", color: "#2ECC71" },
+    { id: "about", title: "關於應用", icon: "info.circle.fill", color: "#E67E22" },
+    { id: "help", title: "幫助和支援", icon: "questionmark.circle.fill", color: "#E74C3C" },
   ];
 
   return (
@@ -43,7 +43,7 @@ export default function ProfileScreen() {
       <View style={styles.header}>
         <ThemedText type="title">個人中心</ThemedText>
         <TouchableOpacity style={styles.settingsButton}>
-          <IconSymbol size={24} name={"gearshape.fill" as const} color={themeColor.text} />
+          <IconSymbol size={24} name="gearshape.fill" color={themeColor.text} />
         </TouchableOpacity>
       </View>
 
@@ -82,28 +82,28 @@ export default function ProfileScreen() {
           <View style={styles.functionGrid}>
             <TouchableOpacity style={styles.functionItem}>
               <View style={[styles.functionIcon, { backgroundColor: "#F39C12" }]}>
-                <IconSymbol size={20} name={"book.fill" as const} color="#FFFFFF" />
+                <IconSymbol size={20} name="book.fill" color="#FFFFFF" />
               </View>
               <ThemedText style={styles.functionLabel}>閱讀歷史</ThemedText>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.functionItem}>
               <View style={[styles.functionIcon, { backgroundColor: "#1ABC9C" }]}>
-                <IconSymbol size={20} name={"bookmark.fill" as const} color="#FFFFFF" />
+                <IconSymbol size={20} name="bookmark.fill" color="#FFFFFF" />
               </View>
               <ThemedText style={styles.functionLabel}>我的書籤</ThemedText>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.functionItem}>
               <View style={[styles.functionIcon, { backgroundColor: "#3498DB" }]}>
-                <IconSymbol size={20} name={"note.text" as const} color="#FFFFFF" />
+                <IconSymbol size={20} name="note.text" color="#FFFFFF" />
               </View>
               <ThemedText style={styles.functionLabel}>閱讀筆記</ThemedText>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.functionItem}>
               <View style={[styles.functionIcon, { backgroundColor: "#E74C3C" }]}>
-                <IconSymbol size={20} name={"heart.fill" as const} color="#FFFFFF" />
+                <IconSymbol size={20} name="heart.fill" color="#FFFFFF" />
               </View>
               <ThemedText style={styles.functionLabel}>我的收藏</ThemedText>
             </TouchableOpacity>
@@ -122,7 +122,7 @@ export default function ProfileScreen() {
                 <IconSymbol size={18} name={item.icon} color="#FFFFFF" />
               </View>
               <ThemedText style={styles.settingTitle}>{item.title}</ThemedText>
-              <IconSymbol size={18} name={"chevron.right" as const} color={themeColor.tabIconDefault} />
+              <IconSymbol size={18} name="chevron.right" color={themeColor.tabIconDefault} />
             </TouchableOpacity>
           ))}
         </View>
