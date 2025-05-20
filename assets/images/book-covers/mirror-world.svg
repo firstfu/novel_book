@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="300" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景和邊框 -->
+  <rect width="200" height="300" rx="5" fill="#4B4453" />
+  <rect x="5" y="5" width="190" height="290" rx="3" fill="#5A5464" stroke="#393344" stroke-width="2" />
+
+  <!-- 裝飾元素 - 鏡子框架 -->
+  <rect x="40" y="60" width="120" height="180" rx="10" fill="#333333" />
+  <rect x="45" y="65" width="110" height="170" rx="8" fill="#A3A0AE" />
+
+  <!-- 裝飾元素 - 鏡像效果 -->
+  <line x1="45" y1="150" x2="155" y2="150" stroke="#FFFFFF" stroke-width="1" opacity="0.7" />
+  <circle cx="100" cy="100" r="25" fill="#FFFFFF" opacity="0.2" />
+  <circle cx="100" cy="200" r="25" fill="#FFFFFF" opacity="0.2" />
+
+  <!-- 裝飾元素 - 反射光 -->
+  <path d="M50,70 L60,80" stroke="#FFFFFF" stroke-width="1.5" />
+  <path d="M150,70 L140,80" stroke="#FFFFFF" stroke-width="1.5" />
+  <path d="M50,230 L60,220" stroke="#FFFFFF" stroke-width="1.5" />
+  <path d="M150,230 L140,220" stroke="#FFFFFF" stroke-width="1.5" />
+
+  <!-- 裝飾元素 - 鏡子裂紋 -->
+  <path d="M100,65 L100,235" stroke="#FFFFFF" stroke-width="0.5" opacity="0.5" />
+  <path d="M45,120 L155,120" stroke="#FFFFFF" stroke-width="0.5" opacity="0.5" />
+  <path d="M45,180 L155,180" stroke="#FFFFFF" stroke-width="0.5" opacity="0.5" />
+  <path d="M65,65 L135,235" stroke="#FFFFFF" stroke-width="0.5" opacity="0.5" />
+  <path d="M135,65 L65,235" stroke="#FFFFFF" stroke-width="0.5" opacity="0.5" />
+
+  <!-- 書名和作者 -->
+  <text x="100" y="35" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#FFFFFF">鏡像世界</text>
+  <text x="100" y="260" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#B9B6C1">王大明</text>
+</svg>

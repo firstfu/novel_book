@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="300" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景和邊框 -->
+  <rect width="200" height="300" rx="5" fill="#7D5A5A" />
+  <rect x="5" y="5" width="190" height="290" rx="3" fill="#8E6868" stroke="#5D4444" stroke-width="2" />
+
+  <!-- 裝飾元素 - 時鐘 -->
+  <circle cx="100" cy="150" r="70" fill="#EAEAEA" />
+  <circle cx="100" cy="150" r="65" fill="#F8F8F8" />
+  <circle cx="100" cy="150" r="5" fill="#333333" />
+
+  <!-- 時鐘刻度 -->
+  <line x1="100" y1="90" x2="100" y2="100" stroke="#333333" stroke-width="2" />
+  <line x1="100" y1="200" x2="100" y2="210" stroke="#333333" stroke-width="2" />
+  <line x1="40" y1="150" x2="50" y2="150" stroke="#333333" stroke-width="2" />
+  <line x1="150" y1="150" x2="160" y2="150" stroke="#333333" stroke-width="2" />
+
+  <line x1="85.9" y1="99.5" x2="81.8" y2="106.7" stroke="#333333" stroke-width="1" />
+  <line x1="114.1" y1="99.5" x2="118.2" y2="106.7" stroke="#333333" stroke-width="1" />
+  <line x1="70.5" y1="114.1" x2="63.3" y2="118.2" stroke="#333333" stroke-width="1" />
+  <line x1="129.5" y1="114.1" x2="136.7" y2="118.2" stroke="#333333" stroke-width="1" />
+  <line x1="70.5" y1="185.9" x2="63.3" y2="181.8" stroke="#333333" stroke-width="1" />
+  <line x1="129.5" y1="185.9" x2="136.7" y2="181.8" stroke="#333333" stroke-width="1" />
+  <line x1="85.9" y1="200.5" x2="81.8" y2="193.3" stroke="#333333" stroke-width="1" />
+  <line x1="114.1" y1="200.5" x2="118.2" y2="193.3" stroke="#333333" stroke-width="1" />
+
+  <!-- 時針和分針 -->
+  <line x1="100" y1="150" x2="100" y2="110" stroke="#333333" stroke-width="3" />
+  <line x1="100" y1="150" x2="135" y2="165" stroke="#333333" stroke-width="2" />
+
+  <!-- 時鐘上方裝飾 -->
+  <rect x="95" y="75" width="10" height="10" fill="#D2A0A0" />
+  <rect x="93" y="70" width="14" height="5" fill="#D2A0A0" />
+
+  <!-- 書名和作者 -->
+  <text x="100" y="50" font-family="Arial, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#FFFFFF">時間的禮物</text>
+  <text x="100" y="260" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#EACECE">周芷若</text>
+</svg>

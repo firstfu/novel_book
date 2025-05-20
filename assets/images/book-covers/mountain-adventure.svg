@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="300" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景和邊框 -->
+  <rect width="200" height="300" rx="5" fill="#2C5F2D" />
+  <rect x="5" y="5" width="190" height="290" rx="3" fill="#3A7F3B" stroke="#1A401B" stroke-width="2" />
+
+  <!-- 裝飾元素 - 山脈 -->
+  <polygon points="0,200 60,100 100,150 140,80 200,180 200,300 0,300" fill="#1D3E1E" />
+  <polygon points="0,230 40,160 70,190 120,120 160,170 200,140 200,300 0,300" fill="#1A2F1B" />
+
+  <!-- 裝飾元素 - 太陽 -->
+  <circle cx="160" cy="60" r="30" fill="#FFCC33" />
+  <circle cx="160" cy="60" r="24" fill="#FFDD66" />
+
+  <!-- 裝飾元素 - 樹 -->
+  <rect x="30" y="180" width="6" height="20" fill="#64401C" />
+  <polygon points="25,180 41,180 33,155" fill="#3A7F3B" />
+  <polygon points="27,155 39,155 33,135" fill="#3A7F3B" />
+
+  <!-- 裝飾元素 - 小徑 -->
+  <path d="M60,300 C90,250 70,230 100,200 C130,170 130,200 160,180" stroke="#9B7653" stroke-width="5" fill="none" />
+
+  <!-- 書名和作者 -->
+  <text x="100" y="100" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#FFFFFF">山中奇遇</text>
+  <text x="100" y="260" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#B6D7A8">李明哲</text>
+</svg>

@@ -21,12 +21,12 @@ export default function BookshelfScreen() {
 
   // 模擬用戶書架數據
   const bookshelfData = [
-    { id: 1, title: "無盡的旅程", author: "林雨晴", cover: require("@/assets/images/partial-react-logo.png"), progress: 0.75, lastRead: "昨天" },
-    { id: 2, title: "星海傳說", author: "陳冠宇", cover: require("@/assets/images/partial-react-logo.png"), progress: 0.3, lastRead: "3天前" },
-    { id: 3, title: "山中奇遇", author: "李明哲", cover: require("@/assets/images/partial-react-logo.png"), progress: 0.9, lastRead: "1小時前" },
-    { id: 4, title: "城市迷霧", author: "張靜怡", cover: require("@/assets/images/partial-react-logo.png"), progress: 0.5, lastRead: "上週" },
-    { id: 5, title: "鏡像世界", author: "王大明", cover: require("@/assets/images/partial-react-logo.png"), progress: 0.1, lastRead: "剛剛" },
-    { id: 6, title: "時間的禮物", author: "周芷若", cover: require("@/assets/images/partial-react-logo.png"), progress: 0, lastRead: "未閱讀" },
+    { id: 1, title: "無盡的旅程", author: "林雨晴", cover: require("@/assets/images/book-covers/endless-journey.svg"), progress: 0.75, lastRead: "昨天" },
+    { id: 2, title: "星海傳說", author: "陳冠宇", cover: require("@/assets/images/book-covers/star-legend.svg"), progress: 0.3, lastRead: "3天前" },
+    { id: 3, title: "山中奇遇", author: "李明哲", cover: require("@/assets/images/book-covers/mountain-adventure.svg"), progress: 0.9, lastRead: "1小時前" },
+    { id: 4, title: "城市迷霧", author: "張靜怡", cover: require("@/assets/images/book-covers/city-fog.svg"), progress: 0.5, lastRead: "上週" },
+    { id: 5, title: "鏡像世界", author: "王大明", cover: require("@/assets/images/book-covers/mirror-world.svg"), progress: 0.1, lastRead: "剛剛" },
+    { id: 6, title: "時間的禮物", author: "周芷若", cover: require("@/assets/images/book-covers/time-gift.svg"), progress: 0, lastRead: "未閱讀" },
   ];
 
   // 書架分類標籤
