@@ -1,9 +1,9 @@
-import { Image } from "expo-image";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Dimensions, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import BookCover from "@/components/novel/BookCover";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
@@ -18,26 +18,26 @@ export default function HomeScreen() {
   const themeColor = Colors[colorScheme ?? "light"];
 
   const featuredBooks = [
-    { id: 1, title: "無盡的旅程", author: "林雨晴", cover: require("@/assets/images/partial-react-logo.png"), rating: 4.5 },
-    { id: 2, title: "星海傳說", author: "陳冠宇", cover: require("@/assets/images/partial-react-logo.png"), rating: 4.8 },
-    { id: 3, title: "山中奇遇", author: "李明哲", cover: require("@/assets/images/partial-react-logo.png"), rating: 4.2 },
+    { id: 1, title: "無盡的旅程", author: "林雨晴", colorScheme: "blue", rating: 4.5 },
+    { id: 2, title: "星海傳說", author: "陳冠宇", colorScheme: "purple", rating: 4.8 },
+    { id: 3, title: "山中奇遇", author: "李明哲", colorScheme: "green", rating: 4.2 },
   ];
 
   const popularBooks = [
-    { id: 1, title: "城市迷霧", author: "張靜怡", cover: require("@/assets/images/partial-react-logo.png"), rating: 4.6 },
-    { id: 2, title: "鏡像世界", author: "王大明", cover: require("@/assets/images/partial-react-logo.png"), rating: 4.9 },
-    { id: 3, title: "時間的禮物", author: "周芷若", cover: require("@/assets/images/partial-react-logo.png"), rating: 4.7 },
-    { id: 4, title: "海洋之心", author: "林書豪", cover: require("@/assets/images/partial-react-logo.png"), rating: 4.3 },
+    { id: 1, title: "城市迷霧", author: "張靜怡", colorScheme: "red", rating: 4.6 },
+    { id: 2, title: "鏡像世界", author: "王大明", colorScheme: "orange", rating: 4.9 },
+    { id: 3, title: "時間的禮物", author: "周芷若", colorScheme: "blue", rating: 4.7 },
+    { id: 4, title: "海洋之心", author: "林書豪", colorScheme: "green", rating: 4.3 },
   ];
 
   const categories = [
-    { id: 1, name: "奇幻", icon: "sparkles" },
-    { id: 2, name: "科幻", icon: "atom" },
-    { id: 3, name: "愛情", icon: "heart.fill" },
-    { id: 4, name: "懸疑", icon: "magnifyingglass" },
-    { id: 5, name: "歷史", icon: "clock.fill" },
-    { id: 6, name: "武俠", icon: "person.fill" },
-    { id: 7, name: "更多", icon: "ellipsis" },
+    { id: 1, name: "奇幻", icon: "sparkles" as const },
+    { id: 2, name: "科幻", icon: "atom" as const },
+    { id: 3, name: "愛情", icon: "heart.fill" as const },
+    { id: 4, name: "懸疑", icon: "magnifyingglass" as const },
+    { id: 5, name: "歷史", icon: "clock.fill" as const },
+    { id: 6, name: "武俠", icon: "person.fill" as const },
+    { id: 7, name: "更多", icon: "ellipsis" as const },
   ];
 
   return (
@@ -47,11 +47,11 @@ export default function HomeScreen() {
       {/* 頂部搜尋欄 */}
       <View style={styles.header}>
         <View style={styles.searchContainer}>
-          <IconSymbol size={20} name="magnifyingglass" color={themeColor.text} style={styles.searchIcon} />
+          <IconSymbol size={20} name={"magnifyingglass" as const} color={themeColor.text} style={styles.searchIcon} />
           <TextInput style={styles.searchInput} placeholder="搜尋書名、作者..." placeholderTextColor={themeColor.tabIconDefault} />
         </View>
         <TouchableOpacity style={styles.notificationButton}>
-          <IconSymbol size={24} name="bell.fill" color={themeColor.text} />
+          <IconSymbol size={24} name={"bell.fill" as const} color={themeColor.text} />
         </TouchableOpacity>
       </View>
 
@@ -67,14 +67,19 @@ export default function HomeScreen() {
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.carouselContainer}>
           {featuredBooks.map(book => (
             <TouchableOpacity key={book.id} style={styles.featuredBookCard}>
-              <Image source={book.cover} style={styles.featuredCover} contentFit="cover" />
+              <BookCover
+                width={windowWidth * 0.65}
+                height={160}
+                colorScheme={book.colorScheme as "blue" | "purple" | "green" | "orange" | "red"}
+                style={styles.featuredCover}
+              />
               <View style={styles.featuredBookInfo}>
                 <ThemedText type="defaultSemiBold" numberOfLines={1}>
                   {book.title}
                 </ThemedText>
                 <ThemedText style={styles.authorText}>{book.author}</ThemedText>
                 <View style={styles.ratingContainer}>
-                  <IconSymbol size={16} name="star.fill" color="#FFD700" />
+                  <IconSymbol size={16} name={"star.fill" as const} color="#FFD700" />
                   <ThemedText style={styles.ratingText}>{book.rating}</ThemedText>
                 </View>
               </View>
@@ -93,7 +98,12 @@ export default function HomeScreen() {
         <View style={styles.popularBooksContainer}>
           {popularBooks.map(book => (
             <TouchableOpacity key={book.id} style={styles.popularBookCard}>
-              <Image source={book.cover} style={styles.popularCover} contentFit="cover" />
+              <BookCover
+                width={(windowWidth - 40) / 2}
+                height={150}
+                colorScheme={book.colorScheme as "blue" | "purple" | "green" | "orange" | "red"}
+                style={styles.popularCover}
+              />
               <ThemedText type="defaultSemiBold" numberOfLines={1} style={styles.popularTitle}>
                 {book.title}
               </ThemedText>
