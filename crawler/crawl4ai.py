@@ -326,7 +326,7 @@ def main(api_key: Optional[str] = None, model_name: str = "gpt-3.5-turbo", targe
 if __name__ == "__main__":
     # 直接設定變量，不使用命令行參數
     api_key = read_api_key()  # 從配置文件讀取 API 密鑰
-    model_name = "gpt-4o-mini"  # 使用 40-mini 模型
+    model_name = "gpt-4-turbo-mini"  # 使用 4.1 mini 模型
     target_url = TARGET_URL  # 默認使用常量中定義的 URL，可以修改為其他 URL
 
     main(api_key=api_key, model_name=model_name, target_url=target_url)
