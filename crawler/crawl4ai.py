@@ -99,7 +99,7 @@ def fetch_content(url: str) -> str:
     """
     try:
         response = requests.get(url)
-        response.encoding = 'utf-8'  # 確保正確處理中文字符
+        response.encoding = 'big5'  # 確保正確處理中文字符
         return response.text
     except Exception as e:
         logger.error(f"爬取頁面失敗: {e}")
