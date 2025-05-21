@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="300" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景和邊框 -->
+  <rect width="200" height="300" rx="5" fill="#1A936F" />
+  <rect x="5" y="5" width="190" height="290" rx="3" fill="#2CB185" stroke="#0F6D4D" stroke-width="2" />
+
+  <!-- 裝飾元素 - 海浪 -->
+  <path d="M0,180 C30,170 60,190 100,180 C140,170 160,190 200,180" stroke="#88D4C0" stroke-width="12" fill="none" opacity="0.6" />
+  <path d="M0,200 C40,190 70,210 120,200 C170,190 180,210 200,200" stroke="#88D4C0" stroke-width="10" fill="none" opacity="0.5" />
+  <path d="M0,220 C50,210 80,230 130,220 C180,210 190,230 200,220" stroke="#88D4C0" stroke-width="8" fill="none" opacity="0.4" />
+
+  <!-- 裝飾元素 - 心形 -->
+  <path d="M100,90 C85,70 60,90 60,110 C60,130 100,155 100,155 C100,155 140,130 140,110 C140,90 115,70 100,90 Z" fill="#F25C78" />
+  <path d="M100,100 C90,85 75,95 75,110 C75,125 100,140 100,140 C100,140 125,125 125,110 C125,95 110,85 100,100 Z" fill="#F7A6B7" />
+
+  <!-- 裝飾元素 - 氣泡 -->
+  <circle cx="40" cy="140" r="5" fill="#D4FFEA" opacity="0.8" />
+  <circle cx="65" cy="150" r="3" fill="#D4FFEA" opacity="0.6" />
+  <circle cx="90" cy="135" r="4" fill="#D4FFEA" opacity="0.7" />
+  <circle cx="120" cy="155" r="3" fill="#D4FFEA" opacity="0.6" />
+  <circle cx="150" cy="140" r="5" fill="#D4FFEA" opacity="0.8" />
+  <circle cx="170" cy="150" r="4" fill="#D4FFEA" opacity="0.7" />
+
+  <!-- 書名和作者 -->
+  <text x="100" y="60" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#FFFFFF">海洋之心</text>
+  <text x="100" y="260" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#D4FFEA">林森泰</text>
+</svg>

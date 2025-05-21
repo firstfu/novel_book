@@ -1,4 +1,5 @@
 import { ThemedText } from "@/components/ThemedText";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { ColorValue, StyleSheet, View, ViewStyle } from "react-native";
@@ -21,27 +22,34 @@ interface BookCoverProps {
   style?: ViewStyle;
   title?: string;
   author?: string;
+  svgSource?: any; // 新增 SVG 圖示來源
 }
 
-const BookCover: React.FC<BookCoverProps> = ({ width, height, colorScheme, style, title, author }) => {
+const BookCover: React.FC<BookCoverProps> = ({ width, height, colorScheme, style, title, author, svgSource }) => {
   const colors = colorSchemes[colorScheme] || colorSchemes.blue;
 
   return (
     <View style={[styles.container, { width, height }, style]}>
-      <LinearGradient colors={colors} style={styles.gradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
-        {title && (
-          <View style={styles.textContainer}>
-            <ThemedText style={styles.title} type="defaultSemiBold" lightColor="#FFFFFF" darkColor="#FFFFFF" numberOfLines={2}>
-              {title}
-            </ThemedText>
-            {author && (
-              <ThemedText style={styles.author} lightColor="#FFFFFF" darkColor="#FFFFFF" numberOfLines={1}>
-                {author}
+      {svgSource ? (
+        // 使用 SVG 圖示作為封面
+        <Image source={svgSource} style={[styles.svgImage, { width, height }]} contentFit="cover" />
+      ) : (
+        // 使用漸層顏色作為封面
+        <LinearGradient colors={colors} style={styles.gradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
+          {title && (
+            <View style={styles.textContainer}>
+              <ThemedText style={styles.title} type="defaultSemiBold" lightColor="#FFFFFF" darkColor="#FFFFFF" numberOfLines={2}>
+                {title}
               </ThemedText>
-            )}
-          </View>
-        )}
-      </LinearGradient>
+              {author && (
+                <ThemedText style={styles.author} lightColor="#FFFFFF" darkColor="#FFFFFF" numberOfLines={1}>
+                  {author}
+                </ThemedText>
+              )}
+            </View>
+          )}
+        </LinearGradient>
+      )}
     </View>
   );
 };
@@ -55,6 +63,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     padding: 12,
+  },
+  svgImage: {
+    borderRadius: 8,
   },
   textContainer: {
     width: "100%",

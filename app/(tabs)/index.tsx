@@ -18,16 +18,65 @@ export default function HomeScreen() {
   const themeColor = Colors[colorScheme ?? "light"];
 
   const featuredBooks = [
-    { id: 1, title: "無盡的旅程", author: "林雨晴", colorScheme: "blue", rating: 4.5 },
-    { id: 2, title: "星海傳說", author: "陳冠宇", colorScheme: "purple", rating: 4.8 },
-    { id: 3, title: "山中奇遇", author: "李明哲", colorScheme: "green", rating: 4.2 },
+    {
+      id: 1,
+      title: "無盡的旅程",
+      author: "林雨晴",
+      colorScheme: "blue",
+      rating: 4.5,
+      svgSource: require("@/assets/images/book-covers/endless-journey.svg"),
+    },
+    {
+      id: 2,
+      title: "星海傳說",
+      author: "陳冠宇",
+      colorScheme: "purple",
+      rating: 4.8,
+      svgSource: require("@/assets/images/book-covers/star-legend.svg"),
+    },
+    {
+      id: 3,
+      title: "山中奇遇",
+      author: "李明哲",
+      colorScheme: "green",
+      rating: 4.2,
+      svgSource: require("@/assets/images/book-covers/mountain-adventure.svg"),
+    },
   ];
 
   const popularBooks = [
-    { id: 1, title: "城市迷霧", author: "張靜怡", colorScheme: "red", rating: 4.6 },
-    { id: 2, title: "鏡像世界", author: "王大明", colorScheme: "orange", rating: 4.9 },
-    { id: 3, title: "時間的禮物", author: "周芷若", colorScheme: "blue", rating: 4.7 },
-    { id: 4, title: "海洋之心", author: "林書豪", colorScheme: "green", rating: 4.3 },
+    {
+      id: 1,
+      title: "城市迷霧",
+      author: "張靜怡",
+      colorScheme: "red",
+      rating: 4.6,
+      svgSource: require("@/assets/images/book-covers/city-fog.svg"),
+    },
+    {
+      id: 2,
+      title: "鏡像世界",
+      author: "王大明",
+      colorScheme: "orange",
+      rating: 4.9,
+      svgSource: require("@/assets/images/book-covers/mirror-world.svg"),
+    },
+    {
+      id: 3,
+      title: "時間的禮物",
+      author: "周芷若",
+      colorScheme: "blue",
+      rating: 4.7,
+      svgSource: require("@/assets/images/book-covers/time-gift.svg"),
+    },
+    {
+      id: 4,
+      title: "海洋之心",
+      author: "林森泰",
+      colorScheme: "green",
+      rating: 4.3,
+      svgSource: require("@/assets/images/book-covers/sea-of-heart.svg"),
+    },
   ];
 
   const categories = [
@@ -72,6 +121,7 @@ export default function HomeScreen() {
                 height={160}
                 colorScheme={book.colorScheme as "blue" | "purple" | "green" | "orange" | "red"}
                 style={styles.featuredCover}
+                svgSource={book.svgSource}
               />
               <View style={styles.featuredBookInfo}>
                 <ThemedText type="defaultSemiBold" numberOfLines={1}>
@@ -103,6 +153,7 @@ export default function HomeScreen() {
                 height={150}
                 colorScheme={book.colorScheme as "blue" | "purple" | "green" | "orange" | "red"}
                 style={styles.popularCover}
+                svgSource={book.svgSource}
               />
               <ThemedText type="defaultSemiBold" numberOfLines={1} style={styles.popularTitle}>
                 {book.title}
