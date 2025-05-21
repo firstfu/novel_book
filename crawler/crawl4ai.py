@@ -300,13 +300,9 @@ def main(api_key: Optional[str] = None, model_name: str = "gpt-3.5-turbo", targe
     logger.info("爬取完成")
 
 if __name__ == "__main__":
-    # 解析命令行參數
-    parser = argparse.ArgumentParser(description="crawl4AI - 使用LLM技術爬取小說內容")
-    parser.add_argument("--api-key", help="OpenAI API 密鑰")
-    parser.add_argument("--model", default="gpt-3.5-turbo", help="LLM 模型名稱")
-    parser.add_argument("--url", help="目標 URL")
+    # 直接設定變量，不使用命令行參數
+    api_key = ""  # 請填入你的 OpenAI API 密鑰
+    model_name = "gpt-3.5-turbo"  # 可更改為其他模型
+    target_url = TARGET_URL  # 默認使用常量中定義的 URL，可以修改為其他 URL
 
-    args = parser.parse_args()
-
-
-    main(api_key=args.api_key, model_name=args.model, target_url=args.url)
+    main(api_key=api_key, model_name=model_name, target_url=target_url)
