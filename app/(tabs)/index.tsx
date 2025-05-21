@@ -1,3 +1,4 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Dimensions, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
@@ -25,6 +26,7 @@ export default function HomeScreen() {
       colorScheme: "blue",
       rating: 4.5,
       svgSource: require("@/assets/images/book-covers/endless-journey.svg"),
+      genre: "科幻",
     },
     {
       id: 2,
@@ -33,6 +35,7 @@ export default function HomeScreen() {
       colorScheme: "purple",
       rating: 4.8,
       svgSource: require("@/assets/images/book-covers/star-legend.svg"),
+      genre: "科幻",
     },
     {
       id: 3,
@@ -41,10 +44,11 @@ export default function HomeScreen() {
       colorScheme: "green",
       rating: 4.2,
       svgSource: require("@/assets/images/book-covers/mountain-adventure.svg"),
+      genre: "推理",
     },
   ];
 
-  const popularBooks = [
+  const trendingBooks = [
     {
       id: 1,
       title: "城市迷霧",
@@ -52,6 +56,7 @@ export default function HomeScreen() {
       colorScheme: "red",
       rating: 4.6,
       svgSource: require("@/assets/images/book-covers/city-fog.svg"),
+      genre: "推理",
     },
     {
       id: 2,
@@ -60,6 +65,7 @@ export default function HomeScreen() {
       colorScheme: "orange",
       rating: 4.9,
       svgSource: require("@/assets/images/book-covers/mirror-world.svg"),
+      genre: "警悚",
     },
     {
       id: 3,
@@ -68,6 +74,7 @@ export default function HomeScreen() {
       colorScheme: "blue",
       rating: 4.7,
       svgSource: require("@/assets/images/book-covers/time-gift.svg"),
+      genre: "科幻",
     },
     {
       id: 4,
@@ -76,108 +83,137 @@ export default function HomeScreen() {
       colorScheme: "green",
       rating: 4.3,
       svgSource: require("@/assets/images/book-covers/sea-of-heart.svg"),
+      genre: "警悚",
     },
   ];
 
   const categories = [
-    { id: 1, name: "奇幻", icon: "sparkles" as const },
-    { id: 2, name: "科幻", icon: "atom" as const },
-    { id: 3, name: "愛情", icon: "heart.fill" as const },
-    { id: 4, name: "懸疑", icon: "magnifyingglass" as const },
-    { id: 5, name: "歷史", icon: "clock.fill" as const },
-    { id: 6, name: "武俠", icon: "person.fill" as const },
-    { id: 7, name: "更多", icon: "ellipsis" as const },
+    { id: 1, name: "推理", icon: "magnifyingglass" as const, color: "#6C5CE7" },
+    { id: 2, name: "科幻", icon: "atom" as const, color: "#00B894" },
+    { id: 3, name: "警悚", icon: "exclamationmark.triangle.fill" as const, color: "#FF6B6B" },
   ];
 
   return (
     <ThemedView style={[styles.container, { paddingTop: insets.top }]}>
       <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
 
-      {/* 頂部搜尋欄 */}
+      {/* 頂部標題欄 */}
       <View style={styles.header}>
-        <View style={styles.searchContainer}>
-          <IconSymbol size={20} name={"magnifyingglass" as const} color={themeColor.text} style={styles.searchIcon} />
-          <TextInput style={styles.searchInput} placeholder="搜尋書名、作者..." placeholderTextColor={themeColor.tabIconDefault} />
+        <View>
+          <ThemedText style={styles.greeting}>哈囉，書迷</ThemedText>
+          <ThemedText type="title" style={styles.appTitle}>
+            Novel Book
+          </ThemedText>
         </View>
-        <TouchableOpacity style={styles.notificationButton}>
-          <IconSymbol size={24} name={"bell.fill" as const} color={themeColor.text} />
+        <TouchableOpacity style={styles.profileButton}>
+          <IconSymbol size={24} name={"person.circle.fill" as const} color={themeColor.text} />
         </TouchableOpacity>
       </View>
 
+      {/* 搜尋欄 */}
+      <View style={styles.searchWrapper}>
+        <View style={styles.searchContainer}>
+          <IconSymbol size={20} name={"magnifyingglass" as const} color={themeColor.tabIconDefault} style={styles.searchIcon} />
+          <TextInput style={styles.searchInput} placeholder="搜尋書名、作者..." placeholderTextColor={themeColor.tabIconDefault} />
+        </View>
+      </View>
+
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        {/* 輪播推薦 */}
+        {/* 分類列表 */}
+        <View style={styles.categoriesSection}>
+          <View style={styles.sectionHeader}>
+            <ThemedText type="subtitle">探索類別</ThemedText>
+          </View>
+
+          <View style={styles.categoriesContainer}>
+            {categories.map(category => (
+              <TouchableOpacity key={category.id} style={styles.categoryCard}>
+                <LinearGradient colors={[category.color, `${category.color}99`]} style={styles.categoryGradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
+                  <IconSymbol size={24} name={category.icon} color="#FFFFFF" />
+                  <ThemedText style={styles.categoryName} lightColor="#FFFFFF" darkColor="#FFFFFF">
+                    {category.name}
+                  </ThemedText>
+                </LinearGradient>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        {/* 特色書籍 */}
         <View style={styles.sectionHeader}>
-          <ThemedText type="subtitle">編輯推薦</ThemedText>
+          <ThemedText type="subtitle">每週精選</ThemedText>
           <TouchableOpacity>
             <ThemedText style={styles.viewAllText}>查看全部</ThemedText>
           </TouchableOpacity>
         </View>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.carouselContainer}>
-          {featuredBooks.map(book => (
-            <TouchableOpacity key={book.id} style={styles.featuredBookCard}>
+        <View style={styles.featuredBookContainer}>
+          {featuredBooks[0] && (
+            <TouchableOpacity style={styles.featuredMainBook}>
               <BookCover
-                width={windowWidth * 0.65}
-                height={160}
-                colorScheme={book.colorScheme as "blue" | "purple" | "green" | "orange" | "red"}
+                width={windowWidth - 40}
+                height={200}
+                colorScheme={featuredBooks[0].colorScheme as "blue" | "purple" | "green" | "orange" | "red"}
                 style={styles.featuredCover}
+                svgSource={featuredBooks[0].svgSource}
+              />
+              <View style={styles.bookOverlay}>
+                <View style={styles.genreTag}>
+                  <ThemedText style={styles.genreText} lightColor="#FFFFFF" darkColor="#FFFFFF">
+                    {featuredBooks[0].genre}
+                  </ThemedText>
+                </View>
+                <View style={styles.bookInfo}>
+                  <ThemedText type="defaultSemiBold" style={styles.bookTitle} lightColor="#FFFFFF" darkColor="#FFFFFF" numberOfLines={1}>
+                    {featuredBooks[0].title}
+                  </ThemedText>
+                  <ThemedText style={styles.authorText} lightColor="#FFFFFF" darkColor="#FFFFFF">
+                    {featuredBooks[0].author}
+                  </ThemedText>
+                  <View style={styles.ratingContainer}>
+                    <IconSymbol size={16} name={"star.fill" as const} color="#FFD700" />
+                    <ThemedText style={styles.ratingText} lightColor="#FFFFFF" darkColor="#FFFFFF">
+                      {featuredBooks[0].rating}
+                    </ThemedText>
+                  </View>
+                </View>
+              </View>
+            </TouchableOpacity>
+          )}
+        </View>
+
+        {/* 趨勢閱讀 */}
+        <View style={styles.sectionHeader}>
+          <ThemedText type="subtitle">熱門趨勢</ThemedText>
+          <TouchableOpacity>
+            <ThemedText style={styles.viewAllText}>查看全部</ThemedText>
+          </TouchableOpacity>
+        </View>
+
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.trendingContainer}>
+          {trendingBooks.map(book => (
+            <TouchableOpacity key={book.id} style={styles.trendingBookCard}>
+              <BookCover
+                width={150}
+                height={200}
+                colorScheme={book.colorScheme as "blue" | "purple" | "green" | "orange" | "red"}
+                style={styles.trendingCover}
                 svgSource={book.svgSource}
               />
-              <View style={styles.featuredBookInfo}>
-                <ThemedText type="defaultSemiBold" numberOfLines={1}>
-                  {book.title}
-                </ThemedText>
-                <ThemedText style={styles.authorText}>{book.author}</ThemedText>
-                <View style={styles.ratingContainer}>
-                  <IconSymbol size={16} name={"star.fill" as const} color="#FFD700" />
-                  <ThemedText style={styles.ratingText}>{book.rating}</ThemedText>
-                </View>
+              <View style={styles.smallGenreTag}>
+                <ThemedText style={styles.smallGenreText}>{book.genre}</ThemedText>
+              </View>
+              <ThemedText type="defaultSemiBold" numberOfLines={1} style={styles.bookTitle}>
+                {book.title}
+              </ThemedText>
+              <ThemedText style={styles.authorText}>{book.author}</ThemedText>
+              <View style={styles.ratingContainer}>
+                <IconSymbol size={14} name={"star.fill" as const} color="#FFD700" />
+                <ThemedText style={styles.smallRatingText}>{book.rating}</ThemedText>
               </View>
             </TouchableOpacity>
           ))}
         </ScrollView>
-
-        {/* 熱門小說 */}
-        <View style={styles.sectionHeader}>
-          <ThemedText type="subtitle">熱門小說</ThemedText>
-          <TouchableOpacity>
-            <ThemedText style={styles.viewAllText}>查看全部</ThemedText>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.popularBooksContainer}>
-          {popularBooks.map(book => (
-            <TouchableOpacity key={book.id} style={styles.popularBookCard}>
-              <BookCover
-                width={(windowWidth - 40) / 2}
-                height={150}
-                colorScheme={book.colorScheme as "blue" | "purple" | "green" | "orange" | "red"}
-                style={styles.popularCover}
-                svgSource={book.svgSource}
-              />
-              <ThemedText type="defaultSemiBold" numberOfLines={1} style={styles.popularTitle}>
-                {book.title}
-              </ThemedText>
-              <ThemedText style={styles.authorText}>{book.author}</ThemedText>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        {/* 分類瀏覽 */}
-        <View style={styles.sectionHeader}>
-          <ThemedText type="subtitle">分類瀏覽</ThemedText>
-        </View>
-
-        <View style={styles.categoriesContainer}>
-          {categories.map(category => (
-            <TouchableOpacity key={category.id} style={styles.categoryItem}>
-              <View style={styles.categoryIconContainer}>
-                <IconSymbol size={20} name={category.icon} color={themeColor.text} />
-              </View>
-              <ThemedText style={styles.categoryName}>{category.name}</ThemedText>
-            </TouchableOpacity>
-          ))}
-        </View>
       </ScrollView>
     </ThemedView>
   );
@@ -189,121 +225,173 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: "row",
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     paddingVertical: 12,
     alignItems: "center",
+    justifyContent: "space-between",
+  },
+  greeting: {
+    fontSize: 14,
+    opacity: 0.7,
+  },
+  appTitle: {
+    fontSize: 28,
+    marginTop: 4,
+  },
+  profileButton: {
+    width: 44,
+    height: 44,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#F0F0F0",
+    borderRadius: 22,
+  },
+  searchWrapper: {
+    paddingHorizontal: 20,
+    marginBottom: 12,
   },
   searchContainer: {
-    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#F0F0F0",
     borderRadius: 12,
     paddingHorizontal: 12,
-    height: 40,
+    height: 44,
   },
   searchIcon: {
     marginRight: 8,
   },
   searchInput: {
     flex: 1,
-    height: 40,
+    height: 44,
     fontSize: 16,
-  },
-  notificationButton: {
-    marginLeft: 12,
-    width: 40,
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center",
   },
   scrollContent: {
     paddingBottom: 24,
+  },
+  categoriesSection: {
+    marginBottom: 24,
+  },
+  categoriesContainer: {
+    flexDirection: "row",
+    paddingHorizontal: 20,
+    justifyContent: "space-between",
+  },
+  categoryCard: {
+    width: (windowWidth - 56) / 3,
+    borderRadius: 16,
+    overflow: "hidden",
+  },
+  categoryGradient: {
+    padding: 16,
+    height: 100,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  categoryName: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginTop: 8,
   },
   sectionHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     marginTop: 24,
-    marginBottom: 12,
+    marginBottom: 16,
   },
   viewAllText: {
     fontSize: 14,
     opacity: 0.7,
   },
-  carouselContainer: {
-    paddingLeft: 16,
-    paddingRight: 8,
+  featuredBookContainer: {
+    paddingHorizontal: 20,
   },
-  featuredBookCard: {
-    width: windowWidth * 0.65,
-    marginRight: 12,
-    borderRadius: 12,
+  featuredMainBook: {
+    width: "100%",
+    borderRadius: 16,
     overflow: "hidden",
+    position: "relative",
   },
   featuredCover: {
     width: "100%",
-    height: 160,
-    borderRadius: 12,
+    height: 200,
+    borderRadius: 16,
   },
-  featuredBookInfo: {
-    marginTop: 8,
+  bookOverlay: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 16,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+  },
+  genreTag: {
+    position: "absolute",
+    top: -130,
+    left: 16,
+    backgroundColor: "rgba(0,0,0,0.6)",
+    paddingVertical: 4,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+  },
+  genreText: {
+    fontSize: 12,
+    fontWeight: "600",
+  },
+  smallGenreTag: {
+    position: "absolute",
+    top: 12,
+    left: 12,
+    backgroundColor: "rgba(0,0,0,0.6)",
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 8,
+  },
+  smallGenreText: {
+    fontSize: 10,
+    fontWeight: "600",
+    color: "#FFFFFF",
+  },
+  bookInfo: {
+    width: "100%",
+  },
+  bookTitle: {
+    fontSize: 16,
+    marginBottom: 4,
   },
   authorText: {
     fontSize: 14,
-    marginTop: 4,
-    opacity: 0.7,
+    opacity: 0.8,
   },
   ratingContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 4,
+    marginTop: 6,
   },
   ratingText: {
     fontSize: 14,
     marginLeft: 4,
   },
-  popularBooksContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    paddingHorizontal: 16,
-    justifyContent: "space-between",
-  },
-  popularBookCard: {
-    width: (windowWidth - 40) / 2,
-    marginBottom: 16,
-  },
-  popularCover: {
-    width: "100%",
-    height: 150,
-    borderRadius: 8,
-  },
-  popularTitle: {
-    marginTop: 8,
-  },
-  categoriesContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    paddingHorizontal: 16,
-  },
-  categoryItem: {
-    width: (windowWidth - 64) / 4,
-    alignItems: "center",
-    marginBottom: 16,
-    marginHorizontal: 4,
-  },
-  categoryIconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: "#F0F0F0",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 8,
-  },
-  categoryName: {
+  smallRatingText: {
     fontSize: 12,
-    textAlign: "center",
+    marginLeft: 4,
+  },
+  trendingContainer: {
+    paddingLeft: 20,
+    paddingRight: 10,
+  },
+  trendingBookCard: {
+    width: 150,
+    marginRight: 16,
+    position: "relative",
+  },
+  trendingCover: {
+    width: 150,
+    height: 200,
+    borderRadius: 12,
   },
 });

@@ -28,11 +28,11 @@ export default function ProfileScreen() {
 
   // 設置項目
   const settingsItems = [
-    { id: "theme", title: "外觀設定", icon: "paintpalette.fill", color: "#9B59B6" },
-    { id: "notifications", title: "通知設定", icon: "bell.fill", color: "#3498DB" },
-    { id: "privacy", title: "隱私設定", icon: "lock.fill", color: "#2ECC71" },
-    { id: "about", title: "關於應用", icon: "info.circle.fill", color: "#E67E22" },
-    { id: "help", title: "幫助和支援", icon: "questionmark.circle.fill", color: "#E74C3C" },
+    { id: "theme", title: "外觀設定", icon: "paintpalette.fill" as const, color: "#9B59B6" },
+    { id: "notifications", title: "通知設定", icon: "bell.fill" as const, color: "#3498DB" },
+    { id: "privacy", title: "隱私設定", icon: "lock.fill" as const, color: "#2ECC71" },
+    { id: "about", title: "關於應用", icon: "info.circle.fill" as const, color: "#E67E22" },
+    { id: "help", title: "幫助和支援", icon: "questionmark.circle.fill" as const, color: "#E74C3C" },
   ];
 
   return (

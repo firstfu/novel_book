@@ -13,21 +13,24 @@ async function scrapeNovel(url = "https://angelibrary.com/fictions/yuan_zhen_xia
     const chapterLinks = parseChapterLinks(htmlContent);
     console.log(`找到 ${chapterLinks.length} 個章節連結`);
 
+    // 從網頁中嘗試提取小說資訊
+    const novelInfo = parseNovelInfo(htmlContent, url);
+
     const novel = {
-      title: "緣之鰈：袁振俠",
-      author: "御我",
-      cover: "",
-      description: "一個愛讀書的小人物穿越，偶遇了一位古代特務。",
+      title: novelInfo.title || "魔狼：原振俠",
+      author: novelInfo.author || "未知",
+      cover: novelInfo.cover || "",
+      description: novelInfo.description || "無描述",
+      source: url,
+      scrapeDate: new Date().toISOString(),
+      chaptersCount: chapterLinks.length,
       chapters: [],
     };
 
-    // 限制章節數量，避免一次抓取太多
-    const linksToProcess = chapterLinks.slice(0, 10);
-
     // 抓取每個章節的內容
-    for (let i = 0; i < linksToProcess.length; i++) {
-      const link = linksToProcess[i];
-      console.log(`正在抓取第 ${i + 1}/${linksToProcess.length} 章節: ${link.title}`);
+    for (let i = 0; i < chapterLinks.length; i++) {
+      const link = chapterLinks[i];
+      console.log(`正在抓取第 ${i + 1}/${chapterLinks.length} 章節: ${link.title}`);
 
       try {
         const chapterUrl = new URL(link.url, url).href;
@@ -38,12 +41,23 @@ async function scrapeNovel(url = "https://angelibrary.com/fictions/yuan_zhen_xia
           id: i + 1,
           title: link.title || `第 ${i + 1} 章`,
           content: chapterContent,
+          url: chapterUrl,
         });
 
         // 避免頻繁請求
-        await sleep(1000);
+        await sleep(1500);
       } catch (err) {
         console.error(`抓取章節 ${link.title} 失敗:`, err.message);
+        // 繼續抓取下一章，但添加錯誤信息
+        novel.chapters.push({
+          id: i + 1,
+          title: link.title || `第 ${i + 1} 章`,
+          content: `抓取失敗: ${err.message}`,
+          url: new URL(link.url, url).href,
+          error: true,
+        });
+        // 出錯後等待更長時間
+        await sleep(3000);
       }
     }
 
@@ -64,37 +78,122 @@ async function scrapeNovel(url = "https://angelibrary.com/fictions/yuan_zhen_xia
 function parseChapterLinks(html) {
   const links = [];
 
-  // 簡易的正則表達式來尋找章節連結
-  // 注意：這只是簡單示例，實際爬蟲可能需要更複雜的處理
-  const regex = /<a[^>]*href="([^"]*)"[^>]*>\s*([^<]*第[一二三四五六七八九十百千]+章[^<]*)\s*<\/a>/g;
+  // 針對數字章節和漢字章節的正則表達式
+  const regexPatterns = [
+    /<a[^>]*href="([^"]*)"[^>]*>\s*([^<]*第[一二三四五六七八九十百千0-9零壹貳參肆伍陸柒捌玖拾佰仟]+[章節][^<]*)\s*<\/a>/g,
+    /<a[^>]*href="([^"]*)"[^>]*>\s*([^<]*[第序][0-9零壹貳參肆伍陸柒捌玖拾佰仟一二三四五六七八九十百千]+[章節話回][^<]*)\s*<\/a>/g,
+    /<a[^>]*href="([^"]*)"[^>]*>\s*([^<]*Chapter\s*[0-9]+[^<]*)\s*<\/a>/gi,
+  ];
 
-  let match;
-  while ((match = regex.exec(html)) !== null) {
-    links.push({
-      url: match[1],
-      title: match[2].trim(),
-    });
-  }
-
-  // 如果沒有找到標準章節格式，嘗試尋找其他鏈接格式
-  if (links.length === 0) {
-    const altRegex = /<a[^>]*href="([^"]*)"[^>]*>\s*([^<]*)\s*<\/a>/g;
-    let count = 0;
-
-    while ((match = altRegex.exec(html)) !== null) {
+  // 嘗試所有正則表達式
+  for (const regex of regexPatterns) {
+    let match;
+    while ((match = regex.exec(html)) !== null) {
+      // 確保連結不重複
+      const newUrl = match[1];
       const title = match[2].trim();
-      // 只添加看起來像章節標題的連結
-      if (title && (title.includes("第") || title.includes("章") || title.includes("節"))) {
+
+      if (!links.some(link => link.url === newUrl)) {
         links.push({
-          url: match[1],
+          url: newUrl,
           title: title,
         });
-        count++;
       }
     }
   }
 
+  // 如果仍然找不到章節，使用兜底方案
+  if (links.length === 0) {
+    const altRegex = /<a[^>]*href="([^"]*)"[^>]*>\s*([^<]*)\s*<\/a>/g;
+    let match;
+
+    while ((match = altRegex.exec(html)) !== null) {
+      const title = match[2].trim();
+      const url = match[1];
+
+      // 只添加看起來像章節標題的連結
+      if (
+        title &&
+        (title.includes("第") || title.includes("章") || title.includes("節") || /chapter\s*\d+/i.test(title) || /第\s*\d+\s*[章節]/i.test(title)) &&
+        !links.some(link => link.url === url)
+      ) {
+        links.push({
+          url: url,
+          title: title,
+        });
+      }
+    }
+  }
+
+  // 根據章節順序對連結進行排序 (嘗試從標題中提取數字)
+  links.sort((a, b) => {
+    const numA = extractChapterNumber(a.title);
+    const numB = extractChapterNumber(b.title);
+
+    if (numA !== null && numB !== null) {
+      return numA - numB;
+    }
+
+    return 0; // 保持原順序
+  });
+
   return links;
+}
+
+// 從章節標題中提取章節數字
+function extractChapterNumber(title) {
+  // 嘗試提取數字章節
+  const numMatch = title.match(/第\s*(\d+)\s*[章節話回]|Chapter\s*(\d+)/i);
+  if (numMatch) {
+    return parseInt(numMatch[1] || numMatch[2], 10);
+  }
+
+  // 嘗試轉換中文數字
+  const chineseNums = {
+    零: 0,
+    一: 1,
+    二: 2,
+    三: 3,
+    四: 4,
+    五: 5,
+    六: 6,
+    七: 7,
+    八: 8,
+    九: 9,
+    十: 10,
+    百: 100,
+    千: 1000,
+    壹: 1,
+    貳: 2,
+    參: 3,
+    肆: 4,
+    伍: 5,
+    陸: 6,
+    柒: 7,
+    捌: 8,
+    玖: 9,
+    拾: 10,
+    佰: 100,
+    仟: 1000,
+  };
+
+  const chineseMatch = title.match(/第([零一二三四五六七八九十百千壹貳參肆伍陸柒捌玖拾佰仟]+)[章節話回]/);
+  if (chineseMatch) {
+    const chineseNum = chineseMatch[1];
+
+    // 簡單的中文數字轉換（僅適用於較小的數字）
+    if (chineseNum === "十") return 10;
+    if (chineseNum.length === 1) return chineseNums[chineseNum];
+    if (chineseNum.startsWith("十")) {
+      return 10 + (chineseNums[chineseNum[1]] || 0);
+    }
+    if (chineseNum.endsWith("十")) {
+      return chineseNums[chineseNum[0]] * 10;
+    }
+    // 其他更複雜的中文數字格式可以再擴展...
+  }
+
+  return null;
 }
 
 // 解析章節內容
@@ -183,20 +282,73 @@ function createMockNovelData() {
   return novel;
 }
 
+// 解析小說基本資訊
+function parseNovelInfo(html, url) {
+  const info = {
+    title: "",
+    author: "",
+    cover: "",
+    description: "",
+  };
+
+  try {
+    // 嘗試從頁面標題中獲取小說名
+    const titleMatch = html.match(/<title>(.*?)<\/title>/i);
+    if (titleMatch && titleMatch[1]) {
+      info.title = titleMatch[1].trim().replace(/\s*[-|]\s*.*$/, "");
+    }
+
+    // 嘗試查找作者信息
+    const authorMatch = html.match(/作者[：:]\s*([^<]+)/i) || html.match(/author[：:]\s*([^<]+)/i);
+    if (authorMatch && authorMatch[1]) {
+      info.author = authorMatch[1].trim();
+    }
+
+    // 嘗試尋找描述
+    const descMatch = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i);
+    if (descMatch && descMatch[1]) {
+      info.description = descMatch[1].trim();
+    }
+
+    // 尋找可能的封面圖片
+    const imgMatch =
+      html.match(/<img[^>]*src=["']([^"']*cover[^"']*)["'][^>]*>/i) || html.match(/<img[^>]*class=["'][^"']*cover[^"']*["'][^>]*src=["']([^"']*)["'][^>]*>/i);
+    if (imgMatch && imgMatch[1]) {
+      info.cover = new URL(imgMatch[1], url).href;
+    }
+  } catch (err) {
+    console.error("解析小說資訊時出錯:", err.message);
+  }
+
+  return info;
+}
+
 // 如果直接執行這個腳本
 if (require.main === module) {
-  // 創建模擬數據
-  const mockNovel = createMockNovelData();
-  const outputPath = path.join(__dirname, "../assets/data/novel.json");
+  // 實際抓取小說內容
+  console.log("開始抓取真實小說內容...");
 
-  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
-  fs.writeFileSync(outputPath, JSON.stringify(mockNovel, null, 2), "utf8");
+  // 創建進度報告間隔
+  let startTime = Date.now();
 
-  console.log(`模擬小說數據已成功保存到: ${outputPath}`);
+  scrapeNovel()
+    .then(novel => {
+      const endTime = Date.now();
+      const totalTime = ((endTime - startTime) / 1000 / 60).toFixed(2);
 
-  // 實際抓取會花較長時間，所以默認使用模擬數據
-  // 如需實際抓取，請取消下方註釋
-  // scrapeNovel();
+      console.log(`成功抓取小說: ${novel.title}`);
+      console.log(`共抓取了 ${novel.chapters.length} 個章節`);
+      console.log(`總耗時: ${totalTime} 分鐘`);
+
+      // 統計錯誤章節數
+      const errorChapters = novel.chapters.filter(ch => ch.error).length;
+      if (errorChapters > 0) {
+        console.log(`有 ${errorChapters} 個章節抓取失敗`);
+      }
+    })
+    .catch(err => {
+      console.error("抓取失敗:", err);
+    });
 }
 
 module.exports = {
