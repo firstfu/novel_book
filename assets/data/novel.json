@@ -1,10 +1,27 @@
 {
-  "title": "�K�ѨϮѫ� �@�̡R�쮶�L�@�~",
-  "author": "未知",
+  "title": "�K�ѨϮѫ�",
+  "author": "",
   "cover": "",
-  "description": "無描述",
+  "description": "",
   "source": "https://angelibrary.com/fictions/yuan_zhen_xia/map.html",
-  "scrapeDate": "2025-05-21T01:43:28.425Z",
-  "chaptersCount": 0,
-  "chapters": []
+  "scrapeDate": "2025-05-21T11:55:22.873029",
+  "chaptersCount": 4,
+  "chapters": [
+    {
+      "title": "Server Error",
+      "content": "403\nForbidden\nYou do not have permission to access this document.\nThat's what you can do"
+    },
+    {
+      "title": "Server Error",
+      "content": "403\nForbidden\nYou do not have permission to access this document.\nThat's what you can do"
+    },
+    {
+      "title": "Server Error",
+      "content": "403\nForbidden\nYou do not have permission to access this document.\nThat's what you can do"
+    },
+    {
+      "title": "Server Error",
+      "content": "403\nForbidden\nYou do not have permission to access this document.\nThat's what you can do"
+    }
+  ]
 }

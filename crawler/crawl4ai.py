@@ -120,6 +120,12 @@ def parse_with_llm(content: str, model: ChatOpenAI) -> Dict[str, Any]:
     # 定義輸出解析器
     parser = JsonOutputParser()
 
+    # 限制內容長度，防止超過模型的最大 token 數量
+    max_content_length = 10000  # 大約 4000 tokens
+    if len(content) > max_content_length:
+        logger.warning(f"內容過長，將截斷到 {max_content_length} 字符")
+        content = content[:max_content_length] + "\n...[內容已截斷]"
+
     # 定義提示模板
     prompt = ChatPromptTemplate.from_template("""
     你是一個專門爬取和分析小說內容的AI助手。請從以下HTML內容中提取小說相關信息：
@@ -133,20 +139,21 @@ def parse_with_llm(content: str, model: ChatOpenAI) -> Dict[str, Any]:
     請將結果以JSON格式返回，格式如下：
 
     ```json
-    {
+    {{
       "title": "小說標題",
       "author": "作者名稱",
       "description": "小說簡介",
       "chapters": [
-        {
+        {{
           "title": "章節標題",
           "url": "章節連結"
-        }
+        }}
       ]
-    }
+    }}
     ```
 
     如果某些信息無法提取，請設置為空字符串或空數組。
+    注意：HTML內容可能已被截斷，請基於可見部分盡可能提取信息。
 
     HTML內容：
     {content}
@@ -184,6 +191,12 @@ def fetch_chapter_content(url: str, model: ChatOpenAI) -> Dict[str, str]:
     if not content:
         return {"title": "", "content": ""}
 
+    # 限制內容長度，防止超過模型的最大 token 數量
+    max_content_length = 12000  # 大約 5000 tokens
+    if len(content) > max_content_length:
+        logger.warning(f"章節內容過長，將截斷到 {max_content_length} 字符")
+        content = content[:max_content_length] + "\n...[內容已截斷]"
+
     # 定義輸出解析器
     parser = JsonOutputParser()
 
@@ -197,13 +210,14 @@ def fetch_chapter_content(url: str, model: ChatOpenAI) -> Dict[str, str]:
     請將結果以JSON格式返回，格式如下：
 
     ```json
-    {
+    {{
       "title": "章節標題",
       "content": "章節正文內容"
-    }
+    }}
     ```
 
     對於正文內容，請保留原始段落結構，去除HTML標籤及其他無關內容。
+    注意：HTML內容可能已被截斷，請基於可見部分盡可能提取信息。
 
     HTML內容：
     {content}
@@ -326,7 +340,7 @@ def main(api_key: Optional[str] = None, model_name: str = "gpt-3.5-turbo", targe
 if __name__ == "__main__":
     # 直接設定變量，不使用命令行參數
     api_key = read_api_key()  # 從配置文件讀取 API 密鑰
-    model_name = "gpt-4-turbo-mini"  # 使用 4.1 mini 模型
+    model_name = "gpt-4.1-mini"  # 使用 gpt-3.5-turbo 模型
     target_url = TARGET_URL  # 默認使用常量中定義的 URL，可以修改為其他 URL
 
     main(api_key=api_key, model_name=model_name, target_url=target_url)
