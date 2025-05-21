@@ -42,7 +42,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="bookshelf"
+        name="bookshelf/index"
         options={{
           title: "書架",
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="books.vertical.fill" color={color} />,
