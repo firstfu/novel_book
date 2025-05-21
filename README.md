@@ -48,3 +48,19 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+## API 金鑰設置
+
+程式需要 OpenAI API 金鑰才能運行。請按照以下步驟設置：
+
+1. 在 `config` 目錄中找到 `api_keys.json` 文件
+2. 將您的 OpenAI API 金鑰替換掉文件中的 `"您的API金鑰在此"` 部分
+3. 該文件已在 `.gitignore` 中設置，不會被 git 追蹤，保證金鑰安全
+
+範例格式：
+
+```json
+{
+  "openai_api_key": "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+```

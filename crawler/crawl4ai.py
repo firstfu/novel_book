@@ -36,18 +36,42 @@ logger = logging.getLogger('crawl4ai')
 TARGET_URL = "https://angelibrary.com/fictions/yuan_zhen_xia/map.html"
 SAVE_PATH = Path("assets/data/novel.json")
 
+# 從外部文件讀取 API 密鑰
+def read_api_key(file_path: str = "config/api_keys.json") -> str:
+    """
+    從外部文件讀取 API 密鑰
+
+    Args:
+        file_path: API 密鑰文件路徑
+
+    Returns:
+        API 密鑰字符串
+    """
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            config = json.load(f)
+            return config.get("openai_api_key", "")
+    except Exception as e:
+        logger.error(f"讀取 API 密鑰失敗: {e}")
+        return ""
+
 # 設置 API 密鑰
 def setup_api_key(api_key: Optional[str] = None) -> None:
     """
     設置 OpenAI API 密鑰
 
     Args:
-        api_key: OpenAI API 密鑰，如果為 None，則從環境變量讀取
+        api_key: OpenAI API 密鑰，如果為 None，則從環境變量或配置文件讀取
     """
     if api_key:
         os.environ["OPENAI_API_KEY"] = api_key
     elif "OPENAI_API_KEY" not in os.environ:
-        raise ValueError("請提供 OpenAI API 密鑰")
+        # 嘗試從配置文件讀取
+        key_from_file = read_api_key()
+        if key_from_file:
+            os.environ["OPENAI_API_KEY"] = key_from_file
+        else:
+            raise ValueError("請提供 OpenAI API 密鑰")
 
 # 初始化 LLM
 def init_llm(model_name: str = "gpt-3.5-turbo") -> ChatOpenAI:
@@ -301,8 +325,8 @@ def main(api_key: Optional[str] = None, model_name: str = "gpt-3.5-turbo", targe
 
 if __name__ == "__main__":
     # 直接設定變量，不使用命令行參數
-    api_key = ""  # 請填入你的 OpenAI API 密鑰
-    model_name = "gpt-3.5-turbo"  # 可更改為其他模型
+    api_key = read_api_key()  # 從配置文件讀取 API 密鑰
+    model_name = "gpt-4o-mini"  # 使用 40-mini 模型
     target_url = TARGET_URL  # 默認使用常量中定義的 URL，可以修改為其他 URL
 
     main(api_key=api_key, model_name=model_name, target_url=target_url)
